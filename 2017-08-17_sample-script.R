@@ -33,6 +33,8 @@ levels(surveys$taxa)
 nlevels(surveys$taxa)
 
 table(surveys$taxa)
+
+##Plot Histogram and Barplot
 hist(table(surveys$taxa))
 barplot(table(surveys$taxa))
 
