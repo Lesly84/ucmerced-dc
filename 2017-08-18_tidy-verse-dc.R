@@ -59,6 +59,7 @@ dim(surveys_challenge)
 ##group_by and summarize functions ----
 ##When you want to summarize, you use group_by
 ##Do data maninupalation to get something out of the raw data
+##Help -> Cheat sheets -> Data manipulation
 surveys %>%
   group_by(sex) %>%
   summarize(mean_weight = mean(weight, na.rm = T))
@@ -74,3 +75,41 @@ surveys %>%
   group_by(sex) %>%
   tally
 
+## Challenge
+
+## 1. How many individuals were caught in each plot_type surveyed?
+surveys %>%
+  group_by(plot_type) %>%
+  tally
+
+## 2. Use group_by() and summarize() to find the mean, min, and 
+## max hindfoot length for each species (using species_id).
+surveys %>%
+  group_by(species_id) %>%
+  filter(!is.na(hindfoot_length)) %>%
+  summarize(mean_hindfoot = mean(hindfoot_length), 
+            min_hindfoot = min(hindfoot_length), max_hindfoot = max(hindfoot_length))
+
+## 3. What was the heaviest animal measured in each year? Return
+## the columns year, genus, species_id, and weight.
+surveys_max_weight <- surveys %>%
+  group_by(year) %>%
+  filter(!is.na(weight)) %>%
+  filter(weight==max(weight)) %>%
+  select(year,genus,species_id,weight) %>% 
+  arrange(year) #arrange by year
+tally(surveys_max_weight)
+
+##Method 2
+surveys %>%
+  select(year,genus,species_id,weight) %>%
+  group_by(year) %>%
+  top_n(1,weight)
+##top_n get the top number
+
+## 4. You saw above how to count the number of individuals of each sex using a
+## combination of group_by() and tally(). How could you get the same result using
+## group_by() and summarize()? Hint: see ?n.
+surveys %>%
+  group_by(sex) %>%
+  summarise(n())
