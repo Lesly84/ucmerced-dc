@@ -14,3 +14,4 @@ This repository demonstrates **software** and _formats_:
 ## Conclusion
 
 ![](https://octodex.github.com/images/labtocat.png)
+![](yearly_average_weight_plot.png)
