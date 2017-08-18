@@ -1,6 +1,7 @@
 ##Script from yosemite data carpentry 
 ##Lesly Lopez
 ##llopez84@ucmerced.edu
+##08/17/17-08/18/17
 
 
 ##Download data ----
@@ -59,4 +60,4 @@ table(surveys$month == 1 | surveys$month == 2)#get number of false and true case
 ##How many observations before March (3)
 length(which(surveys$month<3))
 ##Get which obs before March (3)
-surveys[which(surveys$month <3),] #need comma because matrix
+surveys[which(surveys$month <3),] #need comma because it is a matrix
