@@ -62,7 +62,7 @@ dim(surveys_challenge)
 ##Help -> Cheat sheets -> Data manipulation
 surveys %>%
   group_by(sex) %>%
-  summarize(mean_weight = mean(weight, na.rm = T))
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
 ##Add species name
 surveys %>%
   filter(!is.na(weight), sex =="F" | sex == "M") %>%
@@ -110,7 +110,7 @@ surveys %>%
 #Alternative Method 1
 surveys %>%
   group_by(year) %>%
-  filter(weight==max(weight), na.rm=T) %>%
+  filter(weight==max(weight), na.rm=TRUE) %>%
   select(year,genus,species_id,weight) %>% 
   arrange(year) #arrange by year
 tally(surveys_max_weight)
@@ -123,10 +123,7 @@ surveys %>%
   summarise(n())
 
 
-##Visualization ----
-
-##Exporting data
-##Clean up data
+##Exporting data and Cleaning up data ----
 surveys_complete <- surveys %>%
   filter(species_id != "") %>% #remove missing species_id
   filter(!is.na(weight)) %>% #remove N/As for weight
@@ -150,4 +147,3 @@ surveys_common_species <- surveys_complete %>%
 
 #Write data output to csv
 write.csv(surveys_common_species,file = "data_output/surveys_complete.csv")
-
