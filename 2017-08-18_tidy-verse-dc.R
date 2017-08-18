@@ -18,7 +18,7 @@ select(surveys, plot_id, species_id, weight)
 #Filter rows where year is 1995
 filter(surveys, year == 1995)
 
-##Pipes =>    %>%
+##Pipes =>    %>% ----
 ##Idea f(g o x)
 surveys1995 <- surveys %>% 
   filter(year == 1995) %>% #filter is for rows
@@ -55,3 +55,22 @@ surveys_challenge2 <- surveys %>%
 ##Check info is correct
 head(surveys_challenge)
 dim(surveys_challenge)
+
+##group_by and summarize functions ----
+##When you want to summarize, you use group_by
+##Do data maninupalation to get something out of the raw data
+surveys %>%
+  group_by(sex) %>%
+  summarize(mean_weight = mean(weight, na.rm = T))
+##Add species name
+surveys %>%
+  filter(!is.na(weight), sex =="F" | sex == "M") %>%
+  group_by(species_id, sex) %>%
+  summarize(mean_weight = mean(weight), min_weight = min(weight))
+
+##Tally ----
+##Tally: get total count
+surveys %>%
+  group_by(sex) %>%
+  tally
+
