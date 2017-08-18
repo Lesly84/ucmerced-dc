@@ -92,6 +92,7 @@ surveys %>%
 
 ## 3. What was the heaviest animal measured in each year? Return
 ## the columns year, genus, species_id, and weight.
+#Method 1
 surveys_max_weight <- surveys %>%
   group_by(year) %>%
   filter(!is.na(weight)) %>%
@@ -106,6 +107,13 @@ surveys %>%
   group_by(year) %>%
   top_n(1,weight)
 ##top_n get the top number
+#Alternative Method 1
+surveys %>%
+  group_by(year) %>%
+  filter(weight==max(weight), na.rm=T) %>%
+  select(year,genus,species_id,weight) %>% 
+  arrange(year) #arrange by year
+tally(surveys_max_weight)
 
 ## 4. You saw above how to count the number of individuals of each sex using a
 ## combination of group_by() and tally(). How could you get the same result using
@@ -113,3 +121,33 @@ surveys %>%
 surveys %>%
   group_by(sex) %>%
   summarise(n())
+
+
+##Visualization ----
+
+##Exporting data
+##Clean up data
+surveys_complete <- surveys %>%
+  filter(species_id != "") %>% #remove missing species_id
+  filter(!is.na(weight)) %>% #remove N/As for weight
+  filter(!is.na(hindfoot_length)) %>% #remove N/As for hindfoot length
+  filter(sex != "")
+
+surveys_complete <- surveys %>%
+  filter(species_id != "", 
+         !is.na(weight),
+         !is.na(hindfoot_length),
+         sex != "")
+#Remove species that only exist a few times
+species_counts <- surveys_complete %>%
+  group_by(species_id) %>%
+  tally %>%
+  filter(n>=50)
+
+#Keep most common species
+surveys_common_species <- surveys_complete %>%
+  filter(species_id %in% species_counts$species_id) #logical operator: %in%
+
+#Write data output to csv
+write.csv(surveys_common_species,file = "data_output/surveys_complete.csv")
+
